@@ -110,4 +110,3 @@ public final class EasyWarp extends JavaPlugin {
         return result;
     }
 }
-

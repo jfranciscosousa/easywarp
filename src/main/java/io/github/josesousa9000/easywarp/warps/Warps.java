@@ -52,7 +52,8 @@ public class Warps {
 
     private boolean loadFromFile() throws IOException, FileNotFoundException, InvalidConfigurationException {
         try {
-            this.warps = GSON.fromJson(FileUtils.readFileToString(warpsFile), new TypeToken<Map<String, Locations>>() {}.getType());
+            this.warps = GSON.fromJson(FileUtils.readFileToString(warpsFile), new TypeToken<Map<String, Locations>>() {
+            }.getType());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
