@@ -23,7 +23,6 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -78,8 +77,6 @@ public final class EasyWarp extends JavaPlugin {
         } catch (IOException ex) {
             getLogger().info("Couldn't open warps.yml! Starting anew!");
             ex.printStackTrace();
-        } catch (InvalidConfigurationException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -88,20 +85,22 @@ public final class EasyWarp extends JavaPlugin {
         boolean result = true;
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (cmd.getName().equals("setwarp")) {
-                result = this.commandExecutor.setWarp(args, player);
-            }
-            if (cmd.getName().equals("warp")) {
-                result = this.commandExecutor.useWarp(args, player);
-            }
-            if (cmd.getName().equals("listwarp")) {
-                result = this.commandExecutor.listWarp(args, player);
-            }
-            if (cmd.getName().equals("delwarp")) {
-                result = this.commandExecutor.deleteWarp(args, player);
-            }
-            if (cmd.getName().equals("warpbank") && (sender instanceof Player)) {
-                result = this.commandExecutor.changeBankAccount(args, sender);
+            switch (cmd.getName()) {
+                case "setwarp":
+                    result = this.commandExecutor.setWarp(args, player);
+                    break;
+                case "warp":
+                    result = this.commandExecutor.useWarp(args, player);
+                    break;
+                case "listwarp":
+                    result = this.commandExecutor.listWarp(args, player);
+                    break;
+                case "delwarp":
+                    result = this.commandExecutor.deleteWarp(args, player);
+                    break;
+                case "warpbank":
+                    result = this.commandExecutor.changeBankAccount(args, sender);
+                    break;
             }
         } else {
             result = true;
@@ -110,4 +109,3 @@ public final class EasyWarp extends JavaPlugin {
         return result;
     }
 }
-

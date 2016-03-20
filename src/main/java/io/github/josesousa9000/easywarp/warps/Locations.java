@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.bukkit.Location;
 
-class Locations{
+class Locations {
 
     private final Map<String, SimpleLocation> warps;
 
@@ -43,17 +43,17 @@ class Locations{
         }
     }
 
-    public Set<Entry<String, Location>> entrySet(){
+    public Set<Entry<String, Location>> entrySet() {
         return this.toMap().entrySet();
     }
-    
+
     public boolean deleteWarp(String name) {
         return warps.remove(name) != null;
     }
 
     public Map<String, Location> toMap() {
         Map<String, Location> map = new HashMap<>();
-        for (Entry<String, SimpleLocation> entry : this.warps.entrySet()){
+        for (Entry<String, SimpleLocation> entry : this.warps.entrySet()) {
             map.put(entry.getKey(), entry.getValue().toLocation());
         }
         return map;
