@@ -85,22 +85,29 @@ public final class EasyWarp extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]) {
-        boolean result = false;
-        if (cmd.getName().equals("setwarp")) {
-            result = this.commandExecutor.setWarp(args, sender);
-        }
-        if (cmd.getName().equals("warp")) {
-            result = this.commandExecutor.useWarp(args, sender);
-        }
-        if (cmd.getName().equals("listwarp")) {
-            result = this.commandExecutor.listWarp(args, sender);
-        }
-        if (cmd.getName().equals("delwarp")) {
-            result = this.commandExecutor.deleteWarp(args, sender);
-        }
-        if (cmd.getName().equals("warpbank") && (sender instanceof Player)) {
-            result = this.commandExecutor.changeBankAccount(args, sender);
+        boolean result = true;
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (cmd.getName().equals("setwarp")) {
+                result = this.commandExecutor.setWarp(args, player);
+            }
+            if (cmd.getName().equals("warp")) {
+                result = this.commandExecutor.useWarp(args, player);
+            }
+            if (cmd.getName().equals("listwarp")) {
+                result = this.commandExecutor.listWarp(args, player);
+            }
+            if (cmd.getName().equals("delwarp")) {
+                result = this.commandExecutor.deleteWarp(args, player);
+            }
+            if (cmd.getName().equals("warpbank") && (sender instanceof Player)) {
+                result = this.commandExecutor.changeBankAccount(args, sender);
+            }
+        } else {
+            result = true;
+            sender.sendMessage("Only a player can execute this command");
         }
         return result;
     }
 }
+
