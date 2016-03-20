@@ -1,0 +1,21 @@
+name: EasyWarp
+main: io.github.josesousa9000.easywarp.EasyWarp
+version: 1.0
+softdepend: [Vault]
+commands:
+    setwarp:
+        description: Create a warp to the player's current location! Overwrites existing warps!
+        usage: /setwarp <warp name>
+    warp:
+        description: Warps to the specified warp!
+        usage: /warp <warp name>
+    listwarp:
+        description: List all of your warps!
+        usage: /listwarp [page/prefix]
+    delwarp:
+        description: Deletes a warp!
+        usage: /delwarp <warp name>
+    warpbank:
+        description: Changes the bank where the warp money is deposited!
+        usage: /warpbank <bank>
+        

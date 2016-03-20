@@ -1,0 +1,151 @@
+/*
+ * Copyright 2015 José Francisco.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.github.josesousa9000.easywarp.commands;
+
+import io.github.josesousa9000.easywarp.warps.Warps;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+/**
+ *
+ * @author José Francisco
+ */
+public class WarpCommands {
+
+    private final Warps warps;
+    private final Economy economy;
+    private final Permission permission;
+    private String account;
+
+    public WarpCommands(Warps warps, Economy economy, Permission permission, String account) {
+        this.warps = warps;
+        this.economy = economy;
+        this.permission = permission;
+        this.account = account;
+    }
+
+    public boolean setWarp(String args[], CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (permission != null && !permission.has(sender, "easywarp.basic")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use EasyWarp");
+                return true;
+            }
+            if (args.length != 1) {
+                return false;
+            }
+            warps.setWarp(player.getName(), args[0], player.getLocation());
+            player.sendMessage("[EasyWarp] Nice meme!");
+            return true;
+        }
+        sender.sendMessage("Only a player can execute this command");
+        return false;
+    }
+
+    public boolean listWarp(String args[], CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (permission != null && !permission.has(sender, "easywarp.basic")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use EasyWarp");
+                return true;
+            }
+            if (args.length == 0) {
+                this.warps.listWarps(player);
+                return true;
+            } else if (args.length == 1) {
+                try {
+                    this.warps.listWarps(player, Integer.parseInt(args[0]));
+                } catch (NumberFormatException ex) {
+                    this.warps.listWarps(player, args[0]);
+                }
+                return true;
+            }
+            return false;
+        }
+        sender.sendMessage("Only a player can execute this command");
+        return true;
+    }
+
+    public boolean useWarp(String args[], CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (permission != null && !permission.has(sender, "easywarp.basic")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use EasyWarp");
+                return true;
+            }
+            if (args.length != 1) {
+                return false;
+            }
+            Location dest = warps.getWarp(player.getName(), args[0]);
+            if (dest == null) {
+                player.sendMessage("[EasyWarp] This meme doesn't exist!");
+            } else {
+                if (economy != null) {
+                    if (economy.withdrawPlayer(player, 10D).type == EconomyResponse.ResponseType.FAILURE) {
+                        player.sendMessage("[EasyWarp] You don't have enough money!");
+                        return true;
+                    }
+                    economy.bankDeposit(account, 10D);
+                }
+                player.teleport(dest);
+                player.sendMessage("[EasyWarp] WOWOWOWOWOWOWOWOWWOW!");
+            }
+            return true;
+        }
+        sender.sendMessage("Only a player can execute this command");
+        return true;
+    }
+
+    public boolean deleteWarp(String args[], CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (permission != null && !permission.has(sender, "easywarp.basic")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use EasyWarp");
+                return true;
+            }
+            if (args.length != 1) {
+                return false;
+            }
+            if (warps.delWarp(player.getName(), args[0])) {
+                player.sendMessage("[EasyWarp] You just deleted THAT meme!");
+            } else {
+                player.sendMessage("[EasyWarp] You do not have this meme!");
+            }
+        }
+        sender.sendMessage("Only a player can execute this command");
+        return true;
+    }
+
+    public boolean changeBankAccount(String args[], CommandSender sender) {
+        if (permission != null && !permission.has(sender, "easywarp.change.account")) {
+            sender.sendMessage(ChatColor.RED + "You do not have permission to use EasyWarp");
+        }
+        if (args.length != 1) {
+            return false;
+        }
+        if (economy.bankBalance(args[0]).transactionSuccess()) {
+            account = args[0];
+        } else {
+            sender.sendMessage("This bank account doesn't exist!");
+        }
+        return true;
+    }
+}
