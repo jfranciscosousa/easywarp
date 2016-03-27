@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
 public class Warps {
@@ -36,7 +35,7 @@ public class Warps {
     private final File warpsFile;
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public Warps(File file) throws IOException, FileNotFoundException, InvalidConfigurationException {
+    public Warps(File file) throws IOException, FileNotFoundException{
         this.warps = new TreeMap();
         this.warpsFile = file;
         this.loadFromFile();
@@ -50,14 +49,13 @@ public class Warps {
         }
     }
 
-    private boolean loadFromFile() throws IOException, FileNotFoundException, InvalidConfigurationException {
+    private void loadFromFile() throws IOException, FileNotFoundException{
         try {
             this.warps = GSON.fromJson(FileUtils.readFileToString(warpsFile), new TypeToken<Map<String, Locations>>() {
             }.getType());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return true;
     }
 
     private Locations getLocations(String player) {
