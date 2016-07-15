@@ -16,7 +16,9 @@
 package io.github.josesousa9000.easywarp;
 
 import io.github.josesousa9000.easywarp.commands.WarpCommands;
-import io.github.josesousa9000.easywarp.warps.Warps;
+import io.github.josesousa9000.easywarp.warps.WarpFacade;
+import io.github.josesousa9000.easywarp.warps.WarpFacadePlayerName;
+import io.github.josesousa9000.easywarp.warps.WarpFacadeUUID;
 import java.io.File;
 import java.io.IOException;
 import net.milkbowl.vault.economy.Economy;
@@ -32,7 +34,7 @@ public final class EasyWarp extends JavaPlugin {
     private WarpCommands commandExecutor;
     private Economy economy;
     private Permission permission;
-    private Warps warps;
+    private WarpFacade warps;
 
     public EasyWarp() {
     }
@@ -66,13 +68,21 @@ public final class EasyWarp extends JavaPlugin {
         try {
             this.saveDefaultConfig();
             String account = this.getConfig().getString("account");
-            warps = new Warps(new File(getDataFolder(), "warps.json"));
+            boolean playerName = this.getConfig().getBoolean("playerNames");
+
+            if (playerName == true) {
+                this.warps = new WarpFacadePlayerName(new File(getDataFolder(), "warps.json"));
+            } else {
+                this.warps = new WarpFacadeUUID(new File(getDataFolder(), "warps.json"));
+            }
+
             if (!setupEconomy() || !this.getConfig().getBoolean("economy")) {
                 getLogger().info("EasyWarp not using economy!");
             }
             if (!setupPermissions()) {
                 getLogger().info("EasyWarp not using permissions!");
             }
+
             this.commandExecutor = new WarpCommands(warps, economy, permission, account);
         } catch (IOException ex) {
             getLogger().info("Couldn't open warps.yml! Starting anew!");
