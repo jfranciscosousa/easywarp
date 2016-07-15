@@ -15,7 +15,7 @@
  */
 package io.github.josesousa9000.easywarp.commands;
 
-import io.github.josesousa9000.easywarp.warps.Warps;
+import io.github.josesousa9000.easywarp.warps.WarpFacade;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
@@ -30,12 +30,12 @@ import org.bukkit.entity.Player;
  */
 public class WarpCommands {
 
-    private final Warps warps;
+    private final WarpFacade warps;
     private final Economy economy;
     private final Permission permission;
     private String account;
 
-    public WarpCommands(Warps warps, Economy economy, Permission permission, String account) {
+    public WarpCommands(WarpFacade warps, Economy economy, Permission permission, String account) {
         this.warps = warps;
         this.economy = economy;
         this.permission = permission;
@@ -50,7 +50,7 @@ public class WarpCommands {
         if (args.length != 1) {
             return false;
         }
-        warps.setWarp(player.getName(), args[0], player.getLocation());
+        warps.setWarp(player, args[0], player.getLocation());
         player.sendMessage("[EasyWarp] Nice meme!");
         return true;
     }
@@ -82,7 +82,7 @@ public class WarpCommands {
         if (args.length != 1) {
             return false;
         }
-        Location dest = warps.getWarp(player.getName(), args[0]);
+        Location dest = warps.getWarp(player, args[0]);
         if (dest == null) {
             player.sendMessage("[EasyWarp] This meme doesn't exist!");
         } else {
@@ -107,7 +107,7 @@ public class WarpCommands {
         if (args.length != 1) {
             return false;
         }
-        if (warps.delWarp(player.getName(), args[0])) {
+        if (warps.delWarp(player, args[0])) {
             player.sendMessage("[EasyWarp] You just deleted THAT meme!");
         } else {
             player.sendMessage("[EasyWarp] You do not have this meme!");

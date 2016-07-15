@@ -29,13 +29,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class Warps {
+public class WarpFacadePlayerName implements WarpFacade{
 
     private Map<String, Locations> warps;
     private final File warpsFile;
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public Warps(File file) throws IOException, FileNotFoundException{
+    public WarpFacadePlayerName(File file) throws IOException, FileNotFoundException{
         this.warps = new TreeMap();
         this.warpsFile = file;
         this.loadFromFile();
@@ -67,24 +67,28 @@ public class Warps {
         return lcts;
     }
 
-    public void setWarp(String player, String name, Location l) {
-        Locations lcts = this.getLocations(player);
+    @Override
+    public void setWarp(Player player, String name, Location l) {
+        Locations lcts = this.getLocations(player.getName());
         lcts.addWarp(name, l);
         this.saveToFile();
     }
 
-    public Location getWarp(String player, String name) {
-        Locations lcts = this.getLocations(player);
+    @Override
+    public Location getWarp(Player player, String name) {
+        Locations lcts = this.getLocations(player.getName());
         return lcts.getWarp(name);
     }
 
-    public boolean delWarp(String player, String name) {
-        Locations lcts = this.getLocations(player);
+    @Override
+    public boolean delWarp(Player player, String name) {
+        Locations lcts = this.getLocations(player.getName());
         boolean val = lcts.deleteWarp(name);
         this.saveToFile();
         return val;
     }
 
+    @Override
     public void listWarps(Player player) {
         Locations lcts = this.getLocations(player.getName());
         player.sendMessage("[EasyWarp] Your memes:");
@@ -94,6 +98,7 @@ public class Warps {
 
     }
 
+    @Override
     public void listWarps(Player player, int page) {
         Locations lcts = this.getLocations(player.getName());
         player.sendMessage(String.format("[EasyWarp] Page %d of your memes:\n", page));
@@ -109,6 +114,7 @@ public class Warps {
 
     }
 
+    @Override
     public void listWarps(Player player, String prefix) {
         Locations lcts = this.getLocations(player.getName());
         player.sendMessage("[EasyWarp] Your memes:");
