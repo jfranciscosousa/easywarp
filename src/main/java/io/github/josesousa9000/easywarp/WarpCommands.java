@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.josesousa9000.easywarp.commands;
+package io.github.josesousa9000.easywarp;
 
 import io.github.josesousa9000.easywarp.warps.WarpFacade;
+import java.util.Map;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
@@ -128,5 +129,11 @@ public class WarpCommands {
             sender.sendMessage("This bank account doesn't exist!");
         }
         return true;
+    }
+
+    private void sendWarpInfo(Player player, Map.Entry<String, Location> entry) {
+        Location l = entry.getValue();
+        player.sendMessage(String.format(ChatColor.GREEN + "Name:" + ChatColor.WHITE + " %s | " + ChatColor.GREEN + "World:" + ChatColor.WHITE + "%s | X: %d | Y: %d | Z: %d\n",
+                entry.getKey(), l.getWorld().getName(), l.getBlockX(), l.getBlockY(), l.getBlockZ()));
     }
 }

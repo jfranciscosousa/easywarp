@@ -15,6 +15,7 @@
  */
 package io.github.josesousa9000.easywarp.warps;
 
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -35,4 +36,6 @@ public interface WarpFacade {
     public void listWarps(Player player, int page);
 
     public void listWarps(Player player, String prefix);
+    
+    public List<String> getWarpsByPrefix(Player player, String prefix);
 }

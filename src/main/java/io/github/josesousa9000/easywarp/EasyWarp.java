@@ -15,12 +15,13 @@
  */
 package io.github.josesousa9000.easywarp;
 
-import io.github.josesousa9000.easywarp.commands.WarpCommands;
 import io.github.josesousa9000.easywarp.warps.WarpFacade;
 import io.github.josesousa9000.easywarp.warps.WarpFacadePlayerName;
 import io.github.josesousa9000.easywarp.warps.WarpFacadeUUID;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
@@ -91,11 +92,11 @@ public final class EasyWarp extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String args[]) {
         boolean result = true;
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            switch (cmd.getName()) {
+            switch (command.getName()) {
                 case "setwarp":
                     result = this.commandExecutor.setWarp(args, player);
                     break;
@@ -118,4 +119,22 @@ public final class EasyWarp extends JavaPlugin {
         }
         return result;
     }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> result = new ArrayList<>();
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            switch (command.getName()) {
+                case "warp":
+                    result = this.warps.getWarpsByPrefix(player, args[0]);
+                    break;
+                case "delwarp":
+                    result = this.warps.getWarpsByPrefix(player, args[0]);
+                    break;
+            }
+        }
+        return result;
+    }
+
 }

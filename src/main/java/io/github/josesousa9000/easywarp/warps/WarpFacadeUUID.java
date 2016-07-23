@@ -29,13 +29,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class WarpFacadeUUID implements WarpFacade{
+public class WarpFacadeUUID implements WarpFacade {
 
     private Map<String, Locations> warps;
     private final File warpsFile;
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public WarpFacadeUUID(File file) throws IOException, FileNotFoundException{
+    public WarpFacadeUUID(File file) throws IOException, FileNotFoundException {
         this.warps = new TreeMap();
         this.warpsFile = file;
         this.loadFromFile();
@@ -49,7 +49,7 @@ public class WarpFacadeUUID implements WarpFacade{
         }
     }
 
-    private void loadFromFile() throws IOException, FileNotFoundException{
+    private void loadFromFile() throws IOException, FileNotFoundException {
         try {
             this.warps = GSON.fromJson(FileUtils.readFileToString(warpsFile), new TypeToken<Map<String, Locations>>() {
             }.getType());
@@ -116,13 +116,25 @@ public class WarpFacadeUUID implements WarpFacade{
 
     @Override
     public void listWarps(Player player, String prefix) {
-        Locations lcts = this.getLocations(player.getName());
+        Locations lcts = this.getLocations(player.getUniqueId().toString());
         player.sendMessage("[EasyWarp] Your memes:");
         for (Entry<String, Location> entry : lcts.entrySet()) {
             if (entry.getKey().startsWith(prefix)) {
                 sendWarpInfo(player, entry);
             }
         }
+    }
+
+    @Override
+    public List<String> getWarpsByPrefix(Player player, String prefix) {
+        Locations lcts = this.getLocations(player.getUniqueId().toString());
+        List<String> warpList = new LinkedList<>();
+        for (Entry<String, Location> entry : lcts.entrySet()) {
+            if (entry.getKey().startsWith(prefix)) {
+                warpList.add(entry.getKey());
+            }
+        }
+        return warpList;
     }
 
     private void sendWarpInfo(Player player, Entry<String, Location> entry) {

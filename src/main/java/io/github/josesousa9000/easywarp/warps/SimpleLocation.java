@@ -23,7 +23,7 @@ import org.bukkit.World;
  *
  * @author josesousa
  */
-public class SimpleLocation {
+class SimpleLocation {
 
     private String world;
     private float x, y, z, yaw, pitch;
