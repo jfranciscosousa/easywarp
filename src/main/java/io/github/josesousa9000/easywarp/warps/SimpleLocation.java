@@ -15,6 +15,8 @@
  */
 package io.github.josesousa9000.easywarp.warps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -25,11 +27,26 @@ import org.bukkit.World;
  */
 class SimpleLocation {
 
-    private String world;
-    private float x, y, z, yaw, pitch;
+    private final String world;
+    private final float x, y, z, yaw, pitch;
 
-    public SimpleLocation(World world, float x, float y, float z, float yaw, float pitch) {
-        this.world = world.getName();
+    public SimpleLocation() {
+        this.world = null;
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.yaw = 0;
+        this.pitch = 0;
+    }
+
+    @JsonCreator
+    public SimpleLocation(@JsonProperty("world") String world,
+            @JsonProperty("x") float x,
+            @JsonProperty("y") float y,
+            @JsonProperty("z") float z,
+            @JsonProperty("yaw") float yaw,
+            @JsonProperty("pitch") float pitch) {
+        this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -38,11 +55,11 @@ class SimpleLocation {
     }
 
     public Location toLocation() {
-        return new Location(this.getWorld(), x, y, z, yaw, pitch);
+        return new Location(this.getBukkitWorld(), x, y, z, yaw, pitch);
     }
 
     public static SimpleLocation fromLocation(Location l) {
-        return new SimpleLocation(l.getWorld(),
+        return new SimpleLocation(l.getWorld().getName(),
                 l.getBlockX(),
                 l.getBlockY(),
                 l.getBlockZ(),
@@ -50,7 +67,7 @@ class SimpleLocation {
                 l.getPitch());
     }
 
-    public World getWorld() {
+    public World getBukkitWorld() {
         return Bukkit.getWorld(world);
     }
 

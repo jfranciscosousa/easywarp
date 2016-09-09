@@ -15,47 +15,29 @@
  */
 package io.github.josesousa9000.easywarp.warps;
 
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class WarpFacadeUUID implements WarpFacade {
 
-    private Map<String, Locations> warps;
+    private HashMap<String, Locations> warps;
     private final File warpsFile;
-    private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private final Serializer serializer;
 
     public WarpFacadeUUID(File file) throws IOException, FileNotFoundException {
-        this.warps = new TreeMap();
+        this.warps = new HashMap<>();
         this.warpsFile = file;
-        this.loadFromFile();
-    }
-
-    private void saveToFile() {
-        try {
-            Files.write(GSON.toJson(warps).getBytes(), this.warpsFile);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void loadFromFile() throws IOException, FileNotFoundException {
-        try {
-            this.warps = GSON.fromJson(FileUtils.readFileToString(warpsFile), new TypeToken<Map<String, Locations>>() {
-            }.getType());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        this.serializer = new Serializer();
+        this.warps = this.serializer.loadFromFile(file);
     }
 
     private Locations getLocations(String player) {
@@ -71,7 +53,7 @@ public class WarpFacadeUUID implements WarpFacade {
     public void setWarp(Player player, String name, Location l) {
         Locations lcts = this.getLocations(player.getUniqueId().toString());
         lcts.addWarp(name, l);
-        this.saveToFile();
+        this.serializer.saveToFile(this.warps, warpsFile);
     }
 
     @Override
@@ -84,7 +66,7 @@ public class WarpFacadeUUID implements WarpFacade {
     public boolean delWarp(Player player, String name) {
         Locations lcts = this.getLocations(player.getUniqueId().toString());
         boolean val = lcts.deleteWarp(name);
-        this.saveToFile();
+        this.serializer.saveToFile(this.warps, warpsFile);
         return val;
     }
 
