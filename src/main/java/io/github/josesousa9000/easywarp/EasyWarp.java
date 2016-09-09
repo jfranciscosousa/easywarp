@@ -69,7 +69,7 @@ public final class EasyWarp extends JavaPlugin {
         try {
             this.saveDefaultConfig();
             String account = this.getConfig().getString("account");
-            boolean playerName = this.getConfig().getBoolean("playerNames");
+            boolean playerName = this.getConfig().getBoolean("player_names");
 
             if (playerName == true) {
                 this.warps = new WarpFacadePlayerName(new File(getDataFolder(), "warps.json"));
