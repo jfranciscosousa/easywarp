@@ -58,6 +58,8 @@ class Serializer {
 
     public HashMap<String, Locations> loadFromFile(File file) throws IOException, FileNotFoundException {
         try {
+            if (!file.exists() || file.length() == 0)
+                return new HashMap<>();
             return mapper.readValue(FileUtils.readFileToByteArray(file), type);
         } catch (IOException ex) {
             ex.printStackTrace();

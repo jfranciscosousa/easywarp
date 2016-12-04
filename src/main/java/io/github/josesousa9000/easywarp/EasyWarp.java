@@ -72,9 +72,9 @@ public final class EasyWarp extends JavaPlugin {
             boolean playerName = this.getConfig().getBoolean("player_names");
 
             if (playerName == true) {
-                this.warps = new WarpFacadePlayerName(new File(getDataFolder(), "warps.json"));
+                this.warps = new WarpFacadePlayerName(new File(getDataFolder(), "warps.db"));
             } else {
-                this.warps = new WarpFacadeUUID(new File(getDataFolder(), "warps.json"));
+                this.warps = new WarpFacadeUUID(new File(getDataFolder(), "warps.db"));
             }
 
             if (!setupEconomy() || !this.getConfig().getBoolean("economy")) {
