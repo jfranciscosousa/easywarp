@@ -22,10 +22,10 @@ import org.bukkit.World;
  *
  * @author joses
  */
-public class StubLocation extends Location{
-    
-    public StubLocation(World world, double x, double y, double z) {
-        super(world, x, y, z);
-    }
-    
+public class StubLocation extends Location {
+
+  public StubLocation(World world, double x, double y, double z) {
+    super(world, x, y, z);
+  }
+
 }

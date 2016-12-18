@@ -24,38 +24,38 @@ import org.bukkit.Location;
 
 class Locations {
 
-    private final Map<String, SimpleLocation> warps;
+  private final Map<String, SimpleLocation> warps;
 
-    public Locations() {
-        this.warps = new TreeMap();
-    }
+  public Locations() {
+    this.warps = new TreeMap();
+  }
 
-    public boolean addWarp(String name, Location l) {
-        return warps.put(name, SimpleLocation.fromLocation(l)) == null;
-    }
+  public boolean addWarp(String name, Location l) {
+    return warps.put(name, SimpleLocation.fromLocation(l)) == null;
+  }
 
-    public Location getWarp(String name) {
-        SimpleLocation l = warps.get(name);
-        if (l == null) {
-            return null;
-        } else {
-            return l.toLocation();
-        }
+  public Location getWarp(String name) {
+    SimpleLocation l = warps.get(name);
+    if (l == null) {
+      return null;
+    } else {
+      return l.toLocation();
     }
+  }
 
-    public Set<Entry<String, Location>> entrySet() {
-        return this.toMap().entrySet();
-    }
+  public Set<Entry<String, Location>> entrySet() {
+    return this.toMap().entrySet();
+  }
 
-    public boolean deleteWarp(String name) {
-        return warps.remove(name) != null;
-    }
+  public boolean deleteWarp(String name) {
+    return warps.remove(name) != null;
+  }
 
-    public Map<String, Location> toMap() {
-        Map<String, Location> map = new HashMap<>();
-        for (Entry<String, SimpleLocation> entry : this.warps.entrySet()) {
-            map.put(entry.getKey(), entry.getValue().toLocation());
-        }
-        return map;
+  public Map<String, Location> toMap() {
+    Map<String, Location> map = new HashMap<>();
+    for (Entry<String, SimpleLocation> entry : this.warps.entrySet()) {
+      map.put(entry.getKey(), entry.getValue().toLocation());
     }
+    return map;
+  }
 }
