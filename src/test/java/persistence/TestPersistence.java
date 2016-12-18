@@ -16,7 +16,6 @@
 package persistence;
 
 import io.github.josesousa9000.easywarp.warps.WarpFacade;
-import io.github.josesousa9000.easywarp.warps.WarpFacadePlayerName;
 import java.io.File;
 import java.io.IOException;
 import org.bukkit.Bukkit;
@@ -44,58 +43,58 @@ import stubs.StubWorld;
 @PrepareForTest(Bukkit.class)
 public class TestPersistence {
 
-    private static final String FILE_PATH = "test.db";
+  private static final String FILE_PATH = "test.db";
 
-    @BeforeClass
-    public static void setup() throws IOException {
-        PowerMockito.mockStatic(Bukkit.class);
-        Mockito.when(Bukkit.getWorld("world")).thenReturn(new StubWorld());
-    }
+  @BeforeClass
+  public static void setup() throws IOException {
+    PowerMockito.mockStatic(Bukkit.class);
+    Mockito.when(Bukkit.getWorld("world")).thenReturn(new StubWorld());
+  }
 
-    @Before
-    public void newFile() throws IOException {
-        File file = new File(FILE_PATH);
-        file.createNewFile();
-    }
+  @Before
+  public void newFile() throws IOException {
+    File file = new File(FILE_PATH);
+    file.createNewFile();
+  }
 
-    @After
-    public void deleteFile() {
-        File file = new File(FILE_PATH);
-        file.delete();
-    }
+  @After
+  public void deleteFile() {
+    File file = new File(FILE_PATH);
+    file.delete();
+  }
 
-    @Test
-    public void testSetWarp() throws IOException {
-        WarpFacade warps = new WarpFacadePlayerName(new File("test.db"));
-         Player player = new StubPlayer("player");
-        Location location = new StubLocation(new StubWorld(), 1, 2, 3);
-        warps.setWarp(player, "test", location);
-        WarpFacade otherWarps = new WarpFacadePlayerName(new File("test.db"));
-        Location otherLocation = otherWarps.getWarp(player, "test");
+  @Test
+  public void testSetWarp() throws IOException {
+    WarpFacade warps = new WarpFacade(new File("test.db"), true);
+    Player player = new StubPlayer("player");
+    Location location = new StubLocation(new StubWorld(), 1, 2, 3);
+    warps.setWarp(player, "test", location);
+    WarpFacade otherWarps = new WarpFacade(new File("test.db"), true);
+    Location otherLocation = otherWarps.getWarp(player, "test");
 
-        assertLocationEquals(location, otherLocation);
-    }
+    assertLocationEquals(location, otherLocation);
+  }
 
-    @Test
-    public void testDelWarp() throws IOException {
-        WarpFacade warps = new WarpFacadePlayerName(new File("test.db"));
-        Player player = new StubPlayer("player");
-        Location location = new StubLocation(new StubWorld(), 1, 2, 3);
-        warps.setWarp(player, "test", location);
-        warps.delWarp(player, "test");
+  @Test
+  public void testDelWarp() throws IOException {
+    WarpFacade warps = new WarpFacade(new File("test.db"), true);
+    Player player = new StubPlayer("player");
+    Location location = new StubLocation(new StubWorld(), 1, 2, 3);
+    warps.setWarp(player, "test", location);
+    warps.delWarp(player, "test");
 
-        WarpFacade otherWarps = new WarpFacadePlayerName(new File("test.db"));
-        Location otherLocation = otherWarps.getWarp(player, "test");
+    WarpFacade otherWarps = new WarpFacade(new File("test.db"), true);
+    Location otherLocation = otherWarps.getWarp(player, "test");
 
-        Assert.assertNull(otherLocation);
-    }
+    Assert.assertNull(otherLocation);
+  }
 
-    public void assertLocationEquals(Location location, Location otherLocation) {
-        Assert.assertEquals(location.getX(), otherLocation.getX(), 0.01);
-        Assert.assertEquals(location.getY(), otherLocation.getY(), 0.01);
-        Assert.assertEquals(location.getZ(), otherLocation.getZ(), 0.01);
-        Assert.assertEquals(location.getYaw(), otherLocation.getYaw(), 0.01);
-        Assert.assertEquals(location.getPitch(), otherLocation.getPitch(), 0.01);
-        Assert.assertEquals(location.getWorld().getName(), otherLocation.getWorld().getName());
-    }
+  public void assertLocationEquals(Location location, Location otherLocation) {
+    Assert.assertEquals(location.getX(), otherLocation.getX(), 0.01);
+    Assert.assertEquals(location.getY(), otherLocation.getY(), 0.01);
+    Assert.assertEquals(location.getZ(), otherLocation.getZ(), 0.01);
+    Assert.assertEquals(location.getYaw(), otherLocation.getYaw(), 0.01);
+    Assert.assertEquals(location.getPitch(), otherLocation.getPitch(), 0.01);
+    Assert.assertEquals(location.getWorld().getName(), otherLocation.getWorld().getName());
+  }
 }

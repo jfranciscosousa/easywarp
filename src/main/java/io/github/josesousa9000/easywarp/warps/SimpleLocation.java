@@ -27,68 +27,72 @@ import org.bukkit.World;
  */
 class SimpleLocation {
 
-    private final String world;
-    private final float x, y, z, yaw, pitch;
+  private final String world;
+  private final float x;
+  private final float y; 
+  private final float z; 
+  private final float yaw; 
+  private final float pitch;
 
-    public SimpleLocation() {
-        this.world = null;
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
-        this.yaw = 0;
-        this.pitch = 0;
-    }
+  public SimpleLocation() {
+    this.world = null;
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+    this.yaw = 0;
+    this.pitch = 0;
+  }
 
-    @JsonCreator
-    public SimpleLocation(@JsonProperty("world") String world,
-            @JsonProperty("x") float x,
-            @JsonProperty("y") float y,
-            @JsonProperty("z") float z,
-            @JsonProperty("yaw") float yaw,
-            @JsonProperty("pitch") float pitch) {
-        this.world = world;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.yaw = yaw;
-        this.pitch = pitch;
-    }
+  @JsonCreator
+  public SimpleLocation(@JsonProperty("world") String world,
+          @JsonProperty("x") float x,
+          @JsonProperty("y") float y,
+          @JsonProperty("z") float z,
+          @JsonProperty("yaw") float yaw,
+          @JsonProperty("pitch") float pitch) {
+    this.world = world;
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.yaw = yaw;
+    this.pitch = pitch;
+  }
 
-    public Location toLocation() {
-        return new Location(this.getBukkitWorld(), x, y, z, yaw, pitch);
-    }
+  public Location toLocation() {
+    return new Location(this.getBukkitWorld(), x, y, z, yaw, pitch);
+  }
 
-    public static SimpleLocation fromLocation(Location l) {
-        return new SimpleLocation(l.getWorld().getName(),
-                l.getBlockX(),
-                l.getBlockY(),
-                l.getBlockZ(),
-                l.getYaw(),
-                l.getPitch());
-    }
+  public static SimpleLocation fromLocation(Location l) {
+    return new SimpleLocation(l.getWorld().getName(),
+            l.getBlockX(),
+            l.getBlockY(),
+            l.getBlockZ(),
+            l.getYaw(),
+            l.getPitch());
+  }
 
-    public World getBukkitWorld() {
-        return Bukkit.getWorld(world);
-    }
+  public World getBukkitWorld() {
+    return Bukkit.getWorld(world);
+  }
 
-    public float getX() {
-        return x;
-    }
+  public float getX() {
+    return x;
+  }
 
-    public float getY() {
-        return y;
-    }
+  public float getY() {
+    return y;
+  }
 
-    public float getZ() {
-        return z;
-    }
+  public float getZ() {
+    return z;
+  }
 
-    public float getYaw() {
-        return yaw;
-    }
+  public float getYaw() {
+    return yaw;
+  }
 
-    public float getPitch() {
-        return pitch;
-    }
+  public float getPitch() {
+    return pitch;
+  }
 
 }
