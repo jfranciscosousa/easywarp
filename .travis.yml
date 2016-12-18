@@ -1,8 +1,16 @@
 language: java
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+sudo: false
+install: true
+addons:
+  sonarqube:
+    token:
+      secure: "UNZKkLYsDCpr5GZp6A/GX4P2PABAAIqRj6yj6r1ndpdLxPDdNBnBSopJg+HD/1PElPJBN6z2z8HI9ZrDyQCC400vuWekCeBCjvEk6uLVvkMns2SVNwzDn2Wwpobuvb62BlfI+RGy0uKT0kEzLs1glFA6kG4tJAAlnYnl7i1YWW+uWL1+hB0CUKZMbSR316PfD181ID0uxmDgfsnmBQ2cmkG/pwZB1zVpnLNK1q4aUtE1Yi01jRdH9tZufFeZe30uLLZBRpvuVGqb3Eb0ccYlOwnJKc/W9UJQb+WRdEg+w39hIntCiM5avi5YUow8CIpqqKuoX35vManE9JSiSducmz2AaAiELMFqIMCjV/BX66S/W5afxk5/YVsBN7Y5sw5k9b7UkAPpmpCjcw9GZvcpCQWgrrFlUxvmHUieAaIzSTgvZo0Ka2gMakdu9s/9JLFzwYygzNnybruq9FBuh73ObgPLE0o8zZtL0Ap2XE4WE4hXbr62cm9yEG9hNZP+TP0PtKHUD9CMHXDc0a8HO5a2n9dsajH9USH7URp3M4iIRBGw7iOwroGVEbREiC/sKWou4E05sA33GzCFWW68lO2lltwWkMHEf7yEaP7ri9Gbk9QgjYiPOgoMRr+Y9wycgMdJB5h2VnRyoJaH7BB+7N889rPg+Nc7NTwhBUynuXWgOwY="
+
+jdk:
+  - oraclejdk8
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
