@@ -15,7 +15,7 @@
  */
 package io.github.josesousa9000.easywarp;
 
-import io.github.josesousa9000.easywarp.warps.WarpFacade;
+import io.github.josesousa9000.easywarp.warps.WarpsAPI;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
@@ -31,13 +31,13 @@ import org.bukkit.entity.Player;
 public class WarpCommands {
 
   private static final String BASIC_PERMISSION = "easywarp.basic";
-  
-  private final WarpFacade warps;
+
+  private final WarpsAPI warps;
   private final Economy economy;
   private final Permission permission;
   private String account;
 
-  public WarpCommands(WarpFacade warps, Economy economy, Permission permission, String account) {
+  public WarpCommands(WarpsAPI warps, Economy economy, Permission permission, String account) {
     this.warps = warps;
     this.economy = economy;
     this.permission = permission;

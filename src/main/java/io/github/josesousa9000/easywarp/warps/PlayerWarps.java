@@ -22,11 +22,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.bukkit.Location;
 
-class Locations {
+class PlayerWarps {
 
   private final Map<String, SimpleLocation> warps;
 
-  public Locations() {
+  public PlayerWarps() {
     this.warps = new TreeMap();
   }
 

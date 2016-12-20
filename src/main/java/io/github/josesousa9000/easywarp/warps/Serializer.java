@@ -42,7 +42,7 @@ class Serializer {
   public Serializer() {
     this.f = new CBORFactory();
     this.mapper = new ObjectMapper(f);
-    type = mapper.getTypeFactory().constructMapType(Map.class, String.class, Locations.class);
+    type = mapper.getTypeFactory().constructMapType(Map.class, String.class, PlayerWarps.class);
     mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
             .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
             .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
@@ -50,7 +50,7 @@ class Serializer {
             .withCreatorVisibility(JsonAutoDetect.Visibility.ANY));
   }
 
-  public void saveToFile(Map<String, Locations> warps, File file) {
+  public void saveToFile(Map<String, PlayerWarps> warps, File file) {
     try {
       Files.write(mapper.writeValueAsBytes(warps), file);
     } catch (IOException ex) {
@@ -58,7 +58,7 @@ class Serializer {
     }
   }
 
-  public Map<String, Locations> loadFromFile(File file) throws IOException{
+  public Map<String, PlayerWarps> loadFromFile(File file) throws IOException {
     try {
       if (!file.exists() || file.length() == 0) {
         return new HashMap<>();

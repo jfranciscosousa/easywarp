@@ -29,9 +29,9 @@ class SimpleLocation {
 
   private final String world;
   private final float x;
-  private final float y; 
-  private final float z; 
-  private final float yaw; 
+  private final float y;
+  private final float z;
+  private final float yaw;
   private final float pitch;
 
   public SimpleLocation() {

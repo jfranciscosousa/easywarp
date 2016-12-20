@@ -27,14 +27,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class WarpFacade {
+public class WarpsAPI {
 
   private final boolean usePlayerName;
-  private Map<String, Locations> warps;
+  private Map<String, PlayerWarps> warps;
   private final File warpsFile;
   private final Serializer serializer;
 
-  public WarpFacade(File file, boolean usePlayerName) throws IOException {
+  public WarpsAPI(File file, boolean usePlayerName) throws IOException {
     this.usePlayerName = usePlayerName;
     this.warps = new HashMap<>();
     this.warpsFile = file;
@@ -42,52 +42,52 @@ public class WarpFacade {
     this.warps = this.serializer.loadFromFile(file);
   }
 
-  private Locations getLocations(Player player) {
+  private PlayerWarps getLocations(Player player) {
     String playerID;
     if (usePlayerName) {
       playerID = player.getName();
     } else {
       playerID = player.getUniqueId().toString();
     }
-    Locations lcts = this.warps.get(playerID);
-    if (lcts == null) {
-      lcts = new Locations();
-      warps.put(playerID, lcts);
+    PlayerWarps locations = this.warps.get(playerID);
+    if (locations == null) {
+      locations = new PlayerWarps();
+      warps.put(playerID, locations);
     }
-    return lcts;
+    return locations;
   }
 
   public void setWarp(Player player, String name, Location l) {
-    Locations lcts = this.getLocations(player);
-    lcts.addWarp(name, l);
+    PlayerWarps locations = this.getLocations(player);
+    locations.addWarp(name, l);
     this.serializer.saveToFile(this.warps, warpsFile);
   }
 
   public Location getWarp(Player player, String name) {
-    Locations lcts = this.getLocations(player);
-    return lcts.getWarp(name);
+    PlayerWarps locations = this.getLocations(player);
+    return locations.getWarp(name);
   }
 
   public boolean delWarp(Player player, String name) {
-    Locations lcts = this.getLocations(player);
-    boolean val = lcts.deleteWarp(name);
+    PlayerWarps locations = this.getLocations(player);
+    boolean val = locations.deleteWarp(name);
     this.serializer.saveToFile(this.warps, warpsFile);
     return val;
   }
 
   public void listWarps(Player player) {
-    Locations lcts = this.getLocations(player);
+    PlayerWarps locations = this.getLocations(player);
     player.sendMessage("[EasyWarp] Your memes:");
-    for (Entry<String, Location> entry : lcts.entrySet()) {
+    for (Entry<String, Location> entry : locations.entrySet()) {
       sendWarpInfo(player, entry);
     }
 
   }
 
   public void listWarps(Player player, int page) {
-    Locations lcts = this.getLocations(player);
+    PlayerWarps locations = this.getLocations(player);
     player.sendMessage(String.format("[EasyWarp] Page %d of your memes:%n", page));
-    List entries = new ArrayList(lcts.entrySet());
+    List entries = new ArrayList(locations.entrySet());
     int start = 5 * (page - 1);
     for (int i = start; i < start + 5 && i < entries.size(); i++) {
       java.util.Map.Entry entry = (java.util.Map.Entry) entries.get(i);
@@ -97,9 +97,9 @@ public class WarpFacade {
   }
 
   public void listWarps(Player player, String prefix) {
-    Locations lcts = this.getLocations(player);
+    PlayerWarps locations = this.getLocations(player);
     player.sendMessage("[EasyWarp] Your memes:");
-    for (Entry<String, Location> entry : lcts.entrySet()) {
+    for (Entry<String, Location> entry : locations.entrySet()) {
       if (entry.getKey().startsWith(prefix)) {
         sendWarpInfo(player, entry);
       }
@@ -107,9 +107,9 @@ public class WarpFacade {
   }
 
   public List<String> getWarpsByPrefix(Player player, String prefix) {
-    Locations lcts = this.getLocations(player);
+    PlayerWarps locations = this.getLocations(player);
     List<String> warpList = new LinkedList<>();
-    for (Entry<String, Location> entry : lcts.entrySet()) {
+    for (Entry<String, Location> entry : locations.entrySet()) {
       if (entry.getKey().startsWith(prefix)) {
         warpList.add(entry.getKey());
       }

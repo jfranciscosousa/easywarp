@@ -15,7 +15,7 @@
  */
 package io.github.josesousa9000.easywarp;
 
-import io.github.josesousa9000.easywarp.warps.WarpFacade;
+import io.github.josesousa9000.easywarp.warps.WarpsAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public final class EasyWarp extends JavaPlugin {
   private WarpCommands commandExecutor;
   private Economy economy;
   private Permission permission;
-  private WarpFacade warps;
+  private WarpsAPI warps;
 
   public EasyWarp() {
     //empty constructor needed by Bukkit
@@ -71,7 +71,7 @@ public final class EasyWarp extends JavaPlugin {
       String account = this.getConfig().getString("account");
       boolean usePlayerName = this.getConfig().getBoolean("player_names");
 
-      this.warps = new WarpFacade(new File(getDataFolder(), "warps.db"), usePlayerName);
+      this.warps = new WarpsAPI(new File(getDataFolder(), "warps.db"), usePlayerName);
 
       if (!setupEconomy() || !this.getConfig().getBoolean("economy")) {
         getLogger().info("EasyWarp not using economy!");

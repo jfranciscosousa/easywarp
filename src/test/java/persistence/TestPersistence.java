@@ -15,11 +15,13 @@
  */
 package persistence;
 
-import io.github.josesousa9000.easywarp.warps.WarpFacade;
+import io.github.josesousa9000.easywarp.warps.WarpsAPI;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.junit.After;
 import org.junit.Assert;
@@ -31,9 +33,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import stubs.StubLocation;
-import stubs.StubPlayer;
-import stubs.StubWorld;
 
 /**
  *
@@ -47,8 +46,9 @@ public class TestPersistence {
 
   @BeforeClass
   public static void setup() throws IOException {
+    World world = Mocks.mockWorld();
     PowerMockito.mockStatic(Bukkit.class);
-    Mockito.when(Bukkit.getWorld("world")).thenReturn(new StubWorld());
+    Mockito.when(Bukkit.getWorld("world")).thenReturn(world);
   }
 
   @Before
@@ -65,11 +65,11 @@ public class TestPersistence {
 
   @Test
   public void testSetWarp() throws IOException {
-    WarpFacade warps = new WarpFacade(new File("test.db"), true);
-    Player player = new StubPlayer("player");
-    Location location = new StubLocation(new StubWorld(), 1, 2, 3);
+    WarpsAPI warps = new WarpsAPI(new File("test.db"), true);
+    Player player = Mocks.mockPlayer();
+    Location location = new Location(Mocks.mockWorld(), 1, 2, 3);
     warps.setWarp(player, "test", location);
-    WarpFacade otherWarps = new WarpFacade(new File("test.db"), true);
+    WarpsAPI otherWarps = new WarpsAPI(new File("test.db"), true);
     Location otherLocation = otherWarps.getWarp(player, "test");
 
     assertLocationEquals(location, otherLocation);
@@ -77,13 +77,13 @@ public class TestPersistence {
 
   @Test
   public void testDelWarp() throws IOException {
-    WarpFacade warps = new WarpFacade(new File("test.db"), true);
-    Player player = new StubPlayer("player");
-    Location location = new StubLocation(new StubWorld(), 1, 2, 3);
+    WarpsAPI warps = new WarpsAPI(new File("test.db"), true);
+    Player player = Mocks.mockPlayer();
+    Location location = new Location(Mocks.mockWorld(), 1, 2, 3);
     warps.setWarp(player, "test", location);
     warps.delWarp(player, "test");
 
-    WarpFacade otherWarps = new WarpFacade(new File("test.db"), true);
+    WarpsAPI otherWarps = new WarpsAPI(new File("test.db"), true);
     Location otherLocation = otherWarps.getWarp(player, "test");
 
     Assert.assertNull(otherLocation);
