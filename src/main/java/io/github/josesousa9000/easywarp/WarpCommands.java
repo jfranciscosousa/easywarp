@@ -25,7 +25,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- *
  * @author José Francisco
  */
 public class WarpCommands {
@@ -81,10 +80,13 @@ public class WarpCommands {
       player.sendMessage(ChatColor.RED + WarpMessages.NO_PERMISSION_MESSAGE);
       return true;
     }
+
     if (args.length != 1) {
       return false;
     }
+
     Location dest = warps.getWarp(player, args[0]);
+
     if (dest == null) {
       player.sendMessage("[EasyWarp] This meme doesn't exist!");
     } else {
@@ -95,6 +97,15 @@ public class WarpCommands {
         }
         economy.bankDeposit(account, 10D);
       }
+
+      player.sendMessage("[EasyWarp] Teleporting in 5 seconds!");
+
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        System.out.println("[EasyWarp] Something went very wrong!");
+      }
+
       player.teleport(dest);
       player.sendMessage("[EasyWarp] WOWOWOWOWOWOWOWOWWOW!");
     }

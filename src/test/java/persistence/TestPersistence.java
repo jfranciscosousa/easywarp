@@ -18,7 +18,6 @@ package persistence;
 import io.github.josesousa9000.easywarp.warps.WarpsAPI;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -48,7 +47,7 @@ public class TestPersistence {
   public static void setup() throws IOException {
     World world = Mocks.mockWorld();
     PowerMockito.mockStatic(Bukkit.class);
-    Mockito.when(Bukkit.getWorld("world")).thenReturn(world);
+    Mockito.when(Bukkit.getWorld(Mockito.anyString())).thenReturn(world);
   }
 
   @Before

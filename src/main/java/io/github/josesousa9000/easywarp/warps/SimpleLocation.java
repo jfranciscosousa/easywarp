@@ -44,12 +44,8 @@ class SimpleLocation {
   }
 
   @JsonCreator
-  public SimpleLocation(@JsonProperty("world") String world,
-          @JsonProperty("x") float x,
-          @JsonProperty("y") float y,
-          @JsonProperty("z") float z,
-          @JsonProperty("yaw") float yaw,
-          @JsonProperty("pitch") float pitch) {
+  public SimpleLocation(@JsonProperty("world") String world, @JsonProperty("x") float x, @JsonProperty("y") float y,
+      @JsonProperty("z") float z, @JsonProperty("yaw") float yaw, @JsonProperty("pitch") float pitch) {
     this.world = world;
     this.x = x;
     this.y = y;
@@ -63,12 +59,8 @@ class SimpleLocation {
   }
 
   public static SimpleLocation fromLocation(Location l) {
-    return new SimpleLocation(l.getWorld().getName(),
-            l.getBlockX(),
-            l.getBlockY(),
-            l.getBlockZ(),
-            l.getYaw(),
-            l.getPitch());
+    return new SimpleLocation(l.getWorld().getName(), l.getBlockX(), l.getBlockY(), l.getBlockZ(), l.getYaw(),
+        l.getPitch());
   }
 
   public World getBukkitWorld() {

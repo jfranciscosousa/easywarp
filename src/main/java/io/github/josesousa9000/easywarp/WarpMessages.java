@@ -16,11 +16,9 @@
 package io.github.josesousa9000.easywarp;
 
 /**
- *
  * @author jose
  */
 public class WarpMessages {
-
   public static final String NO_PERMISSION_MESSAGE = "You do not have permission to use EasyWarp!";
 
   private WarpMessages() {

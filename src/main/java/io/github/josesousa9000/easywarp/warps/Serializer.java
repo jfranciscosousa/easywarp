@@ -44,10 +44,8 @@ class Serializer {
     this.mapper = new ObjectMapper(f);
     type = mapper.getTypeFactory().constructMapType(Map.class, String.class, PlayerWarps.class);
     mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-            .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-            .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-            .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-            .withCreatorVisibility(JsonAutoDetect.Visibility.ANY));
+        .withFieldVisibility(JsonAutoDetect.Visibility.ANY).withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+        .withSetterVisibility(JsonAutoDetect.Visibility.NONE).withCreatorVisibility(JsonAutoDetect.Visibility.ANY));
   }
 
   public void saveToFile(Map<String, PlayerWarps> warps, File file) {

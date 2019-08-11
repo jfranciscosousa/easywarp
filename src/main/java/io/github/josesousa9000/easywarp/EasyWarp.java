@@ -37,7 +37,7 @@ public final class EasyWarp extends JavaPlugin {
   private WarpsAPI warps;
 
   public EasyWarp() {
-    //empty constructor needed by Bukkit
+    // empty constructor needed by Bukkit
   }
 
   private boolean setupEconomy() {
@@ -93,23 +93,23 @@ public final class EasyWarp extends JavaPlugin {
     if (sender instanceof Player) {
       Player player = (Player) sender;
       switch (command.getName()) {
-        case "setwarp":
-          result = this.commandExecutor.setWarp(args, player);
-          break;
-        case "warp":
-          result = this.commandExecutor.useWarp(args, player);
-          break;
-        case "listwarp":
-          result = this.commandExecutor.listWarp(args, player);
-          break;
-        case "delwarp":
-          result = this.commandExecutor.deleteWarp(args, player);
-          break;
-        case "warpbank":
-          result = this.commandExecutor.changeBankAccount(args, sender);
-          break;
-        default:
-          break;
+      case "setwarp":
+        result = this.commandExecutor.setWarp(args, player);
+        break;
+      case "warp":
+        result = this.commandExecutor.useWarp(args, player);
+        break;
+      case "listwarp":
+        result = this.commandExecutor.listWarp(args, player);
+        break;
+      case "delwarp":
+        result = this.commandExecutor.deleteWarp(args, player);
+        break;
+      case "warpbank":
+        result = this.commandExecutor.changeBankAccount(args, sender);
+        break;
+      default:
+        break;
       }
     } else {
       result = true;
